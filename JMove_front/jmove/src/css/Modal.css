@@ -1,0 +1,111 @@
+.back {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(24, 24, 24, 0.8);
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.modal {
+  background-color: #120b1a;
+  width: 390px;
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0 30px 0;
+  border-radius: 15px;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.x-div {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.x-div i {
+  color: white;
+  margin-right: 25px;
+  font-size: 20px;
+  transition-duration: 0.3s;
+}
+
+.x-div i:hover {
+  cursor: pointer;
+  transition-duration: 0.3s;
+  color: #0055ff;
+}
+
+td {
+  text-align: center;
+}
+
+.input {
+  border: 3px solid white;
+  background-color: transparent;
+  border-radius: 7px;
+  color: white;
+  width: 170px;
+  padding-left: 10px;
+}
+
+.input:focus {
+  outline: none;
+  border: 3px solid #a38fff;
+}
+
+.modal-title-first,
+.modal-title-last {
+  font-size: 50px;
+  font-family: "양진체";
+}
+
+.modal-title-first {
+  color: #0055ff;
+}
+.modal-title-last {
+  color: #664dd6;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-top: 10px;
+  height: 100%;
+  align-items: center;
+}
+
+.span {
+  color: white;
+}
+
+.login {
+  height: 40px;
+  width: 220px;
+  border: none;
+  border-radius: 10px;
+}
+
+.kakao {
+  background-color: #fee500;
+}
+
+.naver {
+  background-color: #2cb24a;
+  color: white;
+}
+
+.google {
+  background-color: #ffffff;
+}

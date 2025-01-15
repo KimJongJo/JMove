@@ -1,0 +1,51 @@
+import "../css/Modal.css";
+
+function Modal({ onClose }) {
+  return (
+    <div className="back">
+      <div className="modal">
+        <div className="x-div">
+          <i onClick={onClose} className="fa-solid fa-xmark"></i>
+        </div>
+        <div>
+          <span className="modal-title-first">J</span>
+          <span className="modal-title-last">Move</span>
+        </div>
+        <div className="user-info">
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <span className="span">아이디</span>
+                </td>
+                <td>
+                  <input className="input" type="text"></input>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span className="span">비밀번호</span>
+                </td>
+                <td>
+                  <input className="input" type="password"></input>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <span className="span">아이디찾기</span>
+            <span className="span"> / </span>
+            <span className="span">비밀번호찾기</span>
+            <span className="span"> / </span>
+            <span className="span">회원가입</span>
+          </div>
+          <button className="login kakao">카카오 계정으로 로그인</button>
+          <button className="login naver">네이버 아이디로 로그인</button>
+          <button className="login google">구글 계정으로 로그인</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Modal;

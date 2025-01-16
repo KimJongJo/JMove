@@ -19,10 +19,12 @@ public class MainController {
     @Value("${TMDBapi.key}")
     private String apiKey;
 
-    @GetMapping("poster")
+    // 불러올 페이지
+    private static int pageCount = 0;
+
+    // 추천하는 영화 목록
+    @GetMapping(value = "posters", produces = "application/json; charset=UTF-8")
     public String postAPI(){
-
-
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.themoviedb.org/3/movie/popular?language=ko&page=1&week?api_key=" + apiKey ))
@@ -35,10 +37,32 @@ public class MainController {
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             return response.body();
 
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    // 현재 상영중인 영화 목록
+    @GetMapping(value = "movies", produces = "application/json; charset=UTF-8")
+    public String movies(){
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.themoviedb.org/3/movie/now_playing?language=ko&page=" + pageCount + 1 + "&week?api_key=" + apiKey))
+                .header("accept", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        try{
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            return response.body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

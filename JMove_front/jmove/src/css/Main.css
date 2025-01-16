@@ -113,7 +113,7 @@ a {
 }
 
 /* 오른쪽 포스터 이미지 스타일 */
-.main-poster-right {
+/* .main-poster-right {
   margin: 30px 30px 60px 30px;
   background-color: white;
   width: 565px;
@@ -125,6 +125,146 @@ a {
 }
 
 .slide-image {
+  min-width: 100%;
+  transition: transform 0.5s ease-in-out;
+} */
+
+.main-poster-right {
+  margin: 30px 30px 60px 30px;
+  background-color: white;
+  width: 700px;
+  height: 310px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+}
+
+.poster {
+  min-width: 100%;
+  min-height: 100%;
+  transition: transform 1s ease-in-out; /* 부드러운 이동 효과 */
+  display: flex;
+}
+
+.movie-span {
+  color: white;
+}
+
+.movie-content {
+  background: linear-gradient(
+    to right,
+    black 0%,
+    rgba(0, 0, 0, 0.9) 25%,
+    rgba(0, 0, 0, 0.7) 50%,
+    rgba(0, 0, 0, 0.5) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.movie-title {
+  font-size: 30px;
+  margin-bottom: 25px;
+}
+
+.movie-average,
+.movie-count {
+  font-size: 25px;
+}
+
+.movie-span-average,
+.movie-span-count {
+  font-size: 25px;
+  color: #ff262a;
+}
+
+.now-playing-span {
+  color: white;
+  padding-left: 60px;
+  font-size: 35px;
+}
+
+.now-movieList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-left: 60px;
+  padding-right: 60px;
+  padding-top: 20px;
+}
+
+.movie-box {
+  width: 200px;
+  height: 300px;
+  margin: 20px;
+  margin-bottom: 70px;
+  cursor: pointer;
+}
+
+.movie-box:hover .nowplay-movie-title-div {
+  background-color: #462eb2;
+  transition-duration: 0.3s;
+}
+
+.movie-box:hover .movie-overview {
+  background-color: black;
+  opacity: 0.8;
+}
+
+.movie-box:hover .movie-overview-span {
+  display: -webkit-box; /* 보여줄 때는 flex 박스로 전환 */
+  max-height: 300px; /* 마우스를 올렸을 때 텍스트를 보여줄 충분한 높이 */
+  transition: max-height 0.3s ease-in-out;
+}
+
+.nowplay-movie-image {
   width: 100%;
   height: 100%;
+  object-fit: center;
+  border-radius: 15px 15px 0 0;
+}
+
+.movie-overview {
+  border-radius: 15px 15px 0 0;
+  color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.movie-overview-span {
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+  padding: 15px;
+
+  transition-duration: 0.3s;
+  display: none;
+}
+
+.nowplay-movie-title-div {
+  background-color: #68608e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 15px 15px;
+  height: 50px;
+  transition-duration: 0.3s;
+}
+
+.nowplay-movie-title {
+  font-size: 19px;
+  color: white;
 }

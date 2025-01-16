@@ -4,21 +4,35 @@ import React, { useState, useEffect } from "react";
 
 function Main() {
   const [poster, setPoster] = useState([]); // 포스터 목록
+  const [movies, setMovie] = useState([]); // 영화 목록
   const [currentIndex, setCurrentIndex] = useState(0); // 현재 슬라이드 인덱스
   const [isModalOpen, setModalOpen] = useState(false); // 모달 열기/닫기 상태
 
-  // 포스터 데이터 가져오기
+  // 포스터 데이터 가져오기, 현재 상영중인 영화 데이터 가져오기
   useEffect(() => {
-    fetch("http://localhost:8080/poster")
+    fetch("http://localhost:8080/posters")
       .then((response) => response.json())
       .then((data) => {
-        const backdropPaths = data.results.map((item) => item.backdrop_path);
-        setPoster(backdropPaths);
-        console.log(backdropPaths);
+        setPoster(data.results);
+        // console.log(data.results);
+      });
+
+    fetch("http://localhost:8080/movies")
+      .then((response) => response.json())
+      .then((data) => {
+        setMovie(data.results);
+        console.log(data);
       });
   }, []);
 
   // 자동 이미지 슬라이드
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % poster.length);
+    }, 4000);
+
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
+  }, [poster.length]);
 
   // 모달 열기
   const modalOpen = () => {
@@ -64,21 +78,85 @@ function Main() {
             </a>
           </div>
         </div>
-
         <div className="main-poster-right">
-          {poster.length > 0 &&
-            poster.map((image, index) => (
-              <img
-                key={index}
-                src={`https://image.tmdb.org/t/p/w500${image}`} // 슬라이드에 맞는 이미지 경로
-                alt="movie poster"
-                className={`slide-image ${
-                  index === currentIndex ? "active" : "inactive"
-                }`}
-              />
-            ))}
+          {poster.map((movie, index) => (
+            <div
+              key={index}
+              className="poster"
+              style={{
+                minWidth: "100%",
+                minHeight: "100%",
+                backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.backdrop_path})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                transform: `translateX(-${currentIndex * 100}%)`, // 현재 인덱스 기준으로 이동
+              }}
+            >
+              <div className="movie-content">
+                <span className="movie-span movie-title">{`${movie.title}`}</span>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span className="movie-span movie-average">평점</span>
+                      </td>
+                      <td>
+                        <span className="movie-span-average">
+                          <i className="fa-solid fa-star"></i>
+                          {`${movie.vote_average}`}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span className="movie-span movie-count">투표수</span>
+                      </td>
+                      <td>
+                        <span className="movie-span-count">
+                          <i className="fa-solid fa-user"></i>
+                          {`${movie.vote_count}`}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
+
+      <div className="now-playing-span">현재 상영중인 영화</div>
+      <div className="now-movieList">
+        {movies.map((movie, index) => (
+          <div className="movie-box" key={index}>
+            <div
+              key={index}
+              className="nowplay-movie-image"
+              style={{
+                minWidth: "100%",
+                minHeight: "100%",
+                backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.poster_path})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="movie-overview">
+                <span className="movie-overview-span">{`${movie.overview}`}</span>
+              </div>
+            </div>
+            <div className="nowplay-movie-title-div">
+              <span className="nowplay-movie-title">{`${movie.title}`}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button>
+        <i className="fa-solid fa-arrow-down"></i>
+      </button>
     </div>
   );
 }

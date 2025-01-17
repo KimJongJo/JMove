@@ -7,6 +7,8 @@ function Main() {
   const [movies, setMovie] = useState([]); // 영화 목록
   const [currentIndex, setCurrentIndex] = useState(0); // 현재 슬라이드 인덱스
   const [isModalOpen, setModalOpen] = useState(false); // 모달 열기/닫기 상태
+  const [clickMovie, setClickMovie] = useState(); // 선택한 영화
+  const [page, setPage] = useState(1); // 현재 페이지
 
   // 포스터 데이터 가져오기, 현재 상영중인 영화 데이터 가져오기
   useEffect(() => {
@@ -17,13 +19,23 @@ function Main() {
         // console.log(data.results);
       });
 
-    fetch("http://localhost:8080/movies")
+    fetch("http://localhost:8080/movies?page=0")
       .then((response) => response.json())
       .then((data) => {
         setMovie(data.results);
-        console.log(data);
+        // console.log(data);
       });
   }, []);
+
+  const moreMovie = () => {
+    fetch("http://localhost:8080/movies?page=" + page)
+      .then((response) => response.json())
+      .then((data) => {
+        setMovie((prevMovies) => [...prevMovies, ...data.results]);
+        // console.log(data);
+        setPage((prevPage) => prevPage + 1);
+      });
+  };
 
   // 자동 이미지 슬라이드
   useEffect(() => {
@@ -33,6 +45,11 @@ function Main() {
 
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
   }, [poster.length]);
+
+  // 영화 이미지 클릭 하면 영화 정보를 화면에 표시
+  const movieInfo = (movie) => {
+    setClickMovie(movie);
+  };
 
   // 모달 열기
   const modalOpen = () => {
@@ -127,11 +144,12 @@ function Main() {
         </div>
       </div>
 
-      <div className="now-playing-span">현재 상영중인 영화</div>
+      <div className="now-playing-span">인기 있는 영화</div>
       <div className="now-movieList">
         {movies.map((movie, index) => (
           <div className="movie-box" key={index}>
             <div
+              onClick={() => movieInfo(movie)}
               key={index}
               className="nowplay-movie-image"
               style={{
@@ -152,11 +170,65 @@ function Main() {
             </div>
           </div>
         ))}
+        {clickMovie && (
+          <div className="movie-info-div">
+            <div className="movie-info">
+              <img
+                className="movie-info-image"
+                src={`https://image.tmdb.org/t/p/w500${clickMovie.poster_path}`}
+              ></img>
+              <div className="movie-info-under">
+                <div className="xmark-div">
+                  <i
+                    onClick={() => setClickMovie()}
+                    className="fa-solid fa-xmark movie-info-xmark"
+                  ></i>
+                </div>
+                <span className="movie-info-title">{`${clickMovie.title}`}</span>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span className="movie-info-span">평점</span>
+                      </td>
+                      <td>
+                        <span className="movie-info-span-imo">
+                          <i className="fa-solid fa-star"></i>
+                          {`${clickMovie.vote_average}`}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span className="movie-info-span">투표수</span>
+                      </td>
+                      <td>
+                        <span className="movie-info-span-imo">
+                          <i className="fa-solid fa-user"></i>
+                          {`${clickMovie.vote_count}`}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className="movie-info-span-line-div">
+                  <span className="movie-info-span-line">{`${clickMovie.overview}`}</span>
+                </div>
+                <button className="movie-save-btn" type="button">
+                  저장하기
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      <button>
-        <i className="fa-solid fa-arrow-down"></i>
-      </button>
+      <div className="more-btn-div">
+        <button className="more-btn" type="button" onClick={moreMovie}>
+          <span>더보기 </span>
+          <i className="fa-solid fa-arrow-down"></i>
+        </button>
+      </div>
     </div>
   );
 }

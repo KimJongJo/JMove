@@ -2,6 +2,7 @@ package com.example.JMove.Controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -18,9 +19,6 @@ public class MainController {
 
     @Value("${TMDBapi.key}")
     private String apiKey;
-
-    // 불러올 페이지
-    private static int pageCount = 0;
 
     // 추천하는 영화 목록
     @GetMapping(value = "posters", produces = "application/json; charset=UTF-8")
@@ -46,10 +44,10 @@ public class MainController {
 
     // 현재 상영중인 영화 목록
     @GetMapping(value = "movies", produces = "application/json; charset=UTF-8")
-    public String movies(){
+    public String movies(@RequestParam("page") int page ){
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.themoviedb.org/3/movie/now_playing?language=ko&page=" + pageCount + 1 + "&week?api_key=" + apiKey))
+                .uri(URI.create("https://api.themoviedb.org/3/movie/popular?language=ko&page=" + page + 1 + "&week?api_key=" + apiKey))
                 .header("accept", "application/json")
                 .header("Authorization", "Bearer " + token)
                 .method("GET", HttpRequest.BodyPublishers.noBody())

@@ -1,4 +1,5 @@
 import "../css/Modal.css";
+import { Link } from "react-router-dom";
 
 function Modal({ onClose }) {
   return (
@@ -21,6 +22,11 @@ function Modal({ onClose }) {
                 <td>
                   <input className="input" type="text"></input>
                 </td>
+                <td rowSpan={2}>
+                  <button type="button" className="modal-login-btn">
+                    로그인
+                  </button>
+                </td>
               </tr>
               <tr>
                 <td>
@@ -33,11 +39,17 @@ function Modal({ onClose }) {
             </tbody>
           </table>
           <div>
-            <span className="span">아이디찾기</span>
+            <Link to="/find-id" onClick={onClose}>
+              <span className="span">아이디찾기</span>
+            </Link>
             <span className="span"> / </span>
-            <span className="span">비밀번호찾기</span>
+            <Link to="/find-pw" onClick={onClose}>
+              <span className="span">비밀번호찾기</span>
+            </Link>
             <span className="span"> / </span>
-            <span className="span">회원가입</span>
+            <Link to="/signup" onClick={onClose}>
+              <span className="span">회원가입</span>
+            </Link>
           </div>
           <button className="login kakao">카카오 계정으로 로그인</button>
           <button className="login naver">네이버 아이디로 로그인</button>

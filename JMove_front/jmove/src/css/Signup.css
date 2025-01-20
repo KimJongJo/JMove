@@ -1,0 +1,115 @@
+.signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 800px;
+  margin-top: 80px;
+}
+
+.home-div i {
+  color: white;
+  font-size: 30px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+.home-div i:hover {
+  transition-duration: 0.3s;
+  color: #0055ff;
+}
+
+.home-div {
+  width: 80%;
+}
+
+.signup-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 430px;
+}
+
+.span-J,
+.span-Move {
+  font-size: 120px;
+  font-family: "양진체";
+}
+
+.span-J {
+  color: #0055ff;
+}
+
+.span-Move {
+  color: #664dd6;
+}
+
+.signup-span {
+  font-size: 35px;
+  color: white;
+  margin-bottom: 25px;
+  margin-top: 35px;
+}
+
+table tr {
+  height: 20px;
+}
+
+.check-span {
+  color: white;
+  font-size: 15px;
+}
+
+.signup-btn {
+  height: 30px;
+  width: 80px;
+  color: white;
+  background-color: #a38fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+.signup-btn:hover {
+  transition-duration: 0.3s;
+  background-color: #664dd6;
+}
+
+.signup-input {
+  background-color: transparent;
+  border: 3px solid white;
+  color: white;
+  border-radius: 5px;
+  padding-left: 5px;
+  width: 180px;
+}
+
+.signup-input:focus {
+  outline: none;
+  border: 3px solid #a38fff;
+}
+
+.signup-column-span {
+  color: white;
+  font-size: 25px;
+}
+
+.signup-end-btn {
+  margin-top: 25px;
+  background-color: #664dd6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+  height: 50px;
+  font-size: 25px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+.signup-end-btn:hover {
+  transition-duration: 0.3s;
+  background-color: #2900e2;
+}

@@ -1,6 +1,7 @@
 import Modal from "./Modal";
 import "../css/Main.css";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Main() {
   const [poster, setPoster] = useState([]); // 포스터 목록

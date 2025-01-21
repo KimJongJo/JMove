@@ -15,11 +15,8 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
-    @SequenceGenerator(name = "USER_SEQ_GENERATOR", sequenceName = "USER_SEQ", allocationSize = 1)
-    private Long id;
-
-    @Column(name = "user_name")
-    private String name;
+    @Column(name = "user_id", nullable = false, unique = true)
+    private String id;
 
     @Column(name = "user_email")
     private String email;

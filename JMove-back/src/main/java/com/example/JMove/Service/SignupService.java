@@ -17,11 +17,6 @@ public class SignupService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public boolean existsByUserId(String id) {
-
-        return userRepository.existsById(id);
-    }
-
     @Transactional
     public boolean signup(SignupRequest signupRequest) {
         signupRequest.setPassword(bCryptPasswordEncoder.encode(signupRequest.getPassword()));

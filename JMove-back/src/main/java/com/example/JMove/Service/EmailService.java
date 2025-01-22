@@ -1,9 +1,11 @@
 package com.example.JMove.Service;
 
 import com.example.JMove.DAO.Auth;
+import com.example.JMove.DAO.User;
 import com.example.JMove.DTO.AuthRequest;
 import com.example.JMove.DTO.MailDTO;
 import com.example.JMove.Repository.AuthRepository;
+import com.example.JMove.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,6 +24,8 @@ public class EmailService {
     private final JavaMailSender mailSender;
 
     private final AuthRepository authRepository;
+
+    private final UserRepository userRepository;
 
     @Value("${spring.mail.username}")
     private String username;
@@ -54,6 +58,22 @@ public class EmailService {
     
     // 아이디 찾기 이메일
     public void findId(String email){
+
+        User user = userRepository.findByEmail(email);
+
+        MailDTO mailDTO = MailDTO.builder()
+                .address(email)
+                .title("JMove 아이디 찾기")
+                .message("회원의 아이디는 \n" + user.getId() + "\n입니다.")
+                .build();
+
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom(username);
+        simpleMailMessage.setTo(mailDTO.getAddress());
+        simpleMailMessage.setSubject(mailDTO.getTitle());
+        simpleMailMessage.setText(mailDTO.getMessage());
+
+        mailSender.send(simpleMailMessage);
         
     }
 

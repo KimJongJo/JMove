@@ -2,6 +2,7 @@ package com.example.JMove;
 
 import com.example.JMove.Repository.UserRepository;
 import com.example.JMove.Service.SignupService;
+import com.example.JMove.Service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,12 +16,12 @@ public class UserTest {
     private UserRepository userRepository;
 
     @InjectMocks
-    private SignupService signupService;
+    private UserService userService;
 
     @Test
     public void textCheckId() {
         String id = "testId";
-        boolean result = signupService.existsByUserId(id);
+        boolean result = userService.existsByUserId(id);
         Assertions.assertThat(result).isFalse();
     }
 

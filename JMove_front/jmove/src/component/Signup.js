@@ -139,7 +139,7 @@ function Signup() {
 
   const signupAPI = () => {
     axios
-      .post("http://localhost:8080/users", {
+      .post("http://localhost:8080/signup", {
         id: id,
         email: email,
         password: pw,

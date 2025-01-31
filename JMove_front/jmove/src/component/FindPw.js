@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
+import Header from "./Header";
 
 function FindPw() {
   const navigate = useNavigate();
@@ -75,6 +76,9 @@ function FindPw() {
 
   return (
     <div className="find-id">
+      <div className="header-bar">
+        <Header />
+      </div>
       <div className="home-div">
         <Link to="/">
           <i className="fa-solid fa-house"></i>

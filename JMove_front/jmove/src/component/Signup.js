@@ -2,6 +2,7 @@ import "../css/Signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Header from "./Header";
 
 function Signup() {
   const navigate = useNavigate();
@@ -166,6 +167,9 @@ function Signup() {
 
   return (
     <div className="signup">
+      <div className="header-bar">
+        <Header />
+      </div>
       <div className="home-div">
         <Link to="/">
           <i className="fa-solid fa-house"></i>

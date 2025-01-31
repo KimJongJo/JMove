@@ -2,6 +2,7 @@ import "../css/FindId.css";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
+import Header from "./Header";
 
 function FindId() {
   const [email, setEmail] = useState("");
@@ -43,6 +44,9 @@ function FindId() {
 
   return (
     <div className="find-id">
+      <div className="header-bar">
+        <Header />
+      </div>
       <div className="home-div">
         <Link to="/">
           <i className="fa-solid fa-house"></i>

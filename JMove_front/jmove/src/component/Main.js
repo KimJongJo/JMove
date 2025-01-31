@@ -1,41 +1,40 @@
-import Modal from "./Modal";
 import "../css/Main.css";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import Header from "./Header";
 
 function Main() {
   const [poster, setPoster] = useState([]); // 포스터 목록
   const [movies, setMovie] = useState([]); // 영화 목록
   const [currentIndex, setCurrentIndex] = useState(0); // 현재 슬라이드 인덱스
-  const [isModalOpen, setModalOpen] = useState(false); // 모달 열기/닫기 상태
+
   const [clickMovie, setClickMovie] = useState(); // 선택한 영화
   const [page, setPage] = useState(1); // 현재 페이지
 
   // 포스터 데이터 가져오기, 현재 상영중인 영화 데이터 가져오기
   useEffect(() => {
-    fetch("http://localhost:8080/posters")
-      .then((response) => response.json())
-      .then((data) => {
-        setPoster(data.results);
-        // console.log(data.results);
-      });
+    axios.get("http://localhost:8080/posters").then((response) => {
+      let list = new Array();
 
-    fetch("http://localhost:8080/movies?page=0")
-      .then((response) => response.json())
-      .then((data) => {
-        setMovie(data.results);
-        // console.log(data);
-      });
+      // 포스터의 개수를 5개로 조정
+      for (let i = 0; i < 5; i++) {
+        list.push(response.data.results[i]);
+      }
+
+      setPoster(list);
+    });
+
+    axios.get("http://localhost:8080/movies?page=0").then((response) => {
+      setMovie(response.data.results);
+    });
   }, []);
 
+  // 영화 정보 추가 요청 api
   const moreMovie = () => {
-    fetch("http://localhost:8080/movies?page=" + page)
-      .then((response) => response.json())
-      .then((data) => {
-        setMovie((prevMovies) => [...prevMovies, ...data.results]);
-        // console.log(data);
-        setPage((prevPage) => prevPage + 1);
-      });
+    axios.get("http://localhost:8080/movies?page=" + page).then((response) => {
+      setMovie((prevMovies) => [...prevMovies, ...response.data.results]);
+      setPage((prevPage) => prevPage + 1);
+    });
   };
 
   // 자동 이미지 슬라이드
@@ -52,27 +51,10 @@ function Main() {
     setClickMovie(movie);
   };
 
-  // 모달 열기
-  const modalOpen = () => {
-    setModalOpen(true);
-  };
-
-  // 모달 닫기
-  const modalClose = () => {
-    setModalOpen(false);
-  };
-
   return (
     <div className="Main">
       <div className="header-bar">
-        <input type="text" placeholder="영화 검색" className="search-box" />
-        <button type="button" className="search-btn">
-          검색
-        </button>
-        <button onClick={modalOpen} type="button" className="login-btn">
-          로그인
-        </button>
-        {isModalOpen && <Modal onClose={modalClose} />}
+        <Header />
       </div>
 
       <div className="main-poster">

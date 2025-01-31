@@ -1,0 +1,41 @@
+/* 버튼 스타일 */
+.search-btn {
+  border: 0;
+  border-radius: 5px;
+  margin: 0 0 0 15px;
+  background-color: #6f00ff;
+  color: white;
+  transition-duration: 0.3s;
+  font-size: 15px;
+  height: 100%;
+  width: 40px;
+}
+
+.search-btn:hover {
+  cursor: pointer;
+  background-color: #4700a5;
+}
+
+.login-btn {
+  border: 2px solid #664dd6;
+  background-color: transparent;
+  color: #664dd6;
+  border-radius: 5px;
+  transition-duration: 0.3s;
+  margin-right: 30px;
+  margin-left: 15px;
+}
+
+.login-btn:hover {
+  background-color: #664dd6;
+  color: white;
+  cursor: pointer;
+}
+
+/* 검색 박스 스타일 */
+.search-box {
+  height: 25px;
+  padding: 5px;
+  border: 0;
+  border-radius: 7px;
+}

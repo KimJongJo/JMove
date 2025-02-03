@@ -9,6 +9,4 @@ import org.springframework.stereotype.Service;
 public class TokenProvider {
 
     private final JwtProperties jwtProperties;
-
-    public String generateToken(User user, Duration)
 }

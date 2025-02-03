@@ -63,51 +63,44 @@ function Main() {
           <span className="title-first">J</span>
           <span className="title-last">Move</span>
           <div className="comment-box">
-            <a>
-              React와 JPA를 공부하면서 프론트엔드/백엔드가 분리된 환경으로
-              개발한 영화 추천 사이트입니다.
+            React와 JPA를 공부하면서 프론트엔드/백엔드가 분리된 환경으로 개발한
+            영화 추천 사이트입니다. <br /> TMDB API를 요청해서 영화의 정보를
+            응답받습니다. <br /> 로그인을 통해 영화를 저장하거나, 영화의 내용,
+            평점, 투표수를 확인할 수 있습니다. 로그인 방식으로는 JWT를
+            사용했습니다.
+            <br />
+            React Router를 사용하여 애플리케이션의 여러페이지를 나누었습니다.
+            <br />
+            주요 페이지는 다음과 같습니다.
+            <br />
+            <br />
+            <div>
+              <span className="nav-span">- 홈 페이지 (현재 페이지) </span>
               <br />
+            </div>
+            <div>
+              <Link to="/find-id">
+                <span className="nav-span">- 아이디 찾기</span>
+              </Link>
               <br />
-              TMDB API를 요청해서 영화의 정보를 응답받습니다.
+            </div>
+            <div>
+              <Link to="/find-pw">
+                <span className="nav-span">- 비밀번호 찾기</span>
+              </Link>
               <br />
-              로그인을 통해 영화를 저장하거나, 영화의 내용, 평점, 투표수를
-              확인할 수 있습니다.
+            </div>
+            <div>
+              <Link to="/signup">
+                <span className="nav-span">- 회원가입</span>
+              </Link>
               <br />
-              로그인 방식으로는 JWT를 사용했습니다.
-              <br />
-              React Router를 사용하여 애플리케이션의 여러페이지를 나누었습니다.
-              <br />
-              주요 페이지는 다음과 같습니다.
-              <br />
-              <br />
-              <div>
-                <span className="nav-span">- 홈 페이지 (현재 페이지) </span>
-                <br />
-              </div>
-              <div>
-                <Link to="/find-id">
-                  <span className="nav-span">- 아이디 찾기</span>
-                </Link>
-                <br />
-              </div>
-              <div>
-                <Link to="/find-pw">
-                  <span className="nav-span">- 비밀번호 찾기</span>
-                </Link>
-                <br />
-              </div>
-              <div>
-                <Link to="/signup">
-                  <span className="nav-span">- 회원가입</span>
-                </Link>
-                <br />
-              </div>
-              <div>
-                <span className="nav-span">
-                  - 검색페이지 (검색어를 입력해야함)
-                </span>
-              </div>
-            </a>
+            </div>
+            <div>
+              <span className="nav-span">
+                - 검색페이지 (검색어를 입력해야함)
+              </span>
+            </div>
           </div>
         </div>
         <div className="main-poster-right">

@@ -87,9 +87,10 @@ a {
 /* 설명 박스 스타일 */
 .comment-box {
   margin-top: 40px;
+  color: white;
 }
 
-.comment-box > a {
+.comment-box > pre {
   color: white;
   font-size: 20px;
   font-family: "omyu_pretty";

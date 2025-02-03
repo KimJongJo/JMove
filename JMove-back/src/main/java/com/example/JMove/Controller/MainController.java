@@ -85,8 +85,6 @@ public class MainController {
 
 
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-
-            System.out.println(response.body());
             return response.body();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);

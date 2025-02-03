@@ -167,9 +167,7 @@ function Signup() {
 
   return (
     <div className="signup">
-      <div className="header-bar">
-        <Header />
-      </div>
+      <Header />
       <div className="home-div">
         <Link to="/">
           <i className="fa-solid fa-house"></i>

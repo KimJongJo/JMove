@@ -18,31 +18,39 @@ function Header() {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="영화 검색"
-        className="search-box"
-        onChange={(e) => setSearchMovieName(e.target.value)}
-      />
-      <Link
-        to={"/search?q=" + searchMovieName}
-        onClick={(e) => {
-          if (!searchMovieName.trim()) {
-            e.preventDefault(); // 검색어가 없으면 이동 막기
-            alert("검색어를 입력해주세요");
-          }
-        }}
-      >
-        <button type="button" className="search-btn">
-          검색
-        </button>
-      </Link>
+    <div className="header">
+      <div className="header-title">
+        <Link to="/">
+          <span className="search-title-first">J</span>
+          <span className="search-title-last">Move</span>
+        </Link>
+      </div>
+      <div className="header-search-line">
+        <input
+          type="text"
+          placeholder="영화 검색"
+          className="search-box"
+          onChange={(e) => setSearchMovieName(e.target.value)}
+        />
+        <Link
+          to={"/search?q=" + searchMovieName}
+          onClick={(e) => {
+            if (!searchMovieName.trim()) {
+              e.preventDefault(); // 검색어가 없으면 이동 막기
+              alert("검색어를 입력해주세요");
+            }
+          }}
+        >
+          <button type="button" className="search-btn">
+            검색
+          </button>
+        </Link>
 
-      <button onClick={modalOpen} type="button" className="login-btn">
-        로그인
-      </button>
-      {isModalOpen && <Modal onClose={modalClose} />}
+        <button onClick={modalOpen} type="button" className="login-btn">
+          로그인
+        </button>
+        {isModalOpen && <Modal onClose={modalClose} />}
+      </div>
     </div>
   );
 }

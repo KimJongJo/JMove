@@ -2,6 +2,7 @@ import "../css/Main.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "./Header";
+import { Link } from "react-router-dom";
 
 function Main() {
   const [poster, setPoster] = useState([]); // 포스터 목록
@@ -67,14 +68,45 @@ function Main() {
               개발한 영화 추천 사이트입니다.
               <br />
               <br />
-              백엔드 - 로그인 기능을 구현하여 회원마다 영화를 저장해서 담아둘 수
-              있습니다.
+              TMDB API를 요청해서 영화의 정보를 응답받습니다.
               <br />
-              - TMDB API를 이용한 요청/응답에 대한 데이터를 가공합니다.
+              로그인을 통해 영화를 저장하거나, 영화의 내용, 평점, 투표수를
+              확인할 수 있습니다.
               <br />
-              프론트엔드 - 반응형 웹을 통해 해상도에 따라 화면 크기, 배치도의
-              변화가 있습니다.
-              <br />- 사용자의 움직임으로 인한 모든 애니메이션을 동작합니다.
+              로그인 방식으로는 JWT를 사용했습니다.
+              <br />
+              React Router를 사용하여 애플리케이션의 여러페이지를 나누었습니다.
+              <br />
+              주요 페이지는 다음과 같습니다.
+              <br />
+              <br />
+              <div>
+                <span className="nav-span">- 홈 페이지 (현재 페이지) </span>
+                <br />
+              </div>
+              <div>
+                <Link to="/find-id">
+                  <span className="nav-span">- 아이디 찾기</span>
+                </Link>
+                <br />
+              </div>
+              <div>
+                <Link to="/find-pw">
+                  <span className="nav-span">- 비밀번호 찾기</span>
+                </Link>
+                <br />
+              </div>
+              <div>
+                <Link to="/signup">
+                  <span className="nav-span">- 회원가입</span>
+                </Link>
+                <br />
+              </div>
+              <div>
+                <span className="nav-span">
+                  - 검색페이지 (검색어를 입력해야함)
+                </span>
+              </div>
             </a>
           </div>
         </div>

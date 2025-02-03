@@ -76,9 +76,7 @@ function FindPw() {
 
   return (
     <div className="find-id">
-      <div className="header-bar">
-        <Header />
-      </div>
+      <Header />
       <div className="home-div">
         <Link to="/">
           <i className="fa-solid fa-house"></i>

@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "./Header";
@@ -34,8 +34,16 @@ function SearchMovie() {
       <div className="header-bar">
         <Header />
       </div>
+      <div className="search-div"></div>
       <div>
-        <span>검색어 : "{searchMovieName}"</span>
+        <div className="search-home-div-i">
+          <Link to="/">
+            <i className="fa-solid fa-house"></i>
+          </Link>
+        </div>
+        <span className="search-name">
+          " {searchMovieName} " 와 연관있는 영화
+        </span>
         <div>
           {searchMovieList.length === 0 ? (
             <div>검색 결과가 없습니다.</div>

@@ -37,6 +37,15 @@ a {
   font-size: 15px;
 }
 
+.nav-span {
+  color: white;
+  cursor: pointer;
+}
+
+.nav-span:hover {
+  color: #0055ff;
+}
+
 /* 메인 포스터 스타일 */
 .main-poster {
   display: flex;
@@ -55,12 +64,24 @@ a {
   font-family: "양진체";
 }
 
-.title-first {
+.search-title-first,
+.search-title-last {
+  font-size: 45px;
+  font-family: "양진체";
+}
+
+.title-first,
+.search-title-first {
   color: #0055ff;
 }
 
-.title-last {
+.title-last,
+.search-title-last {
   color: #664dd6;
+}
+
+.search-div {
+  margin-left: 30px;
 }
 
 /* 설명 박스 스타일 */

@@ -1,7 +1,27 @@
 import "../css/Modal.css";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 function Modal({ onClose }) {
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+
+  const login = () => {
+    if (id === "" || pw === "") {
+      alert("아이디와 비밀번호를 입력해주세요");
+      return;
+    }
+    axios
+      .post("http://localhost:8080/users/login", {
+        id: id,
+        pw: pw,
+      })
+      .then((response) => {
+        console.log(response);
+      });
+  };
+
   return (
     <div className="back">
       <div className="modal">
@@ -20,10 +40,18 @@ function Modal({ onClose }) {
                   <span className="span">아이디</span>
                 </td>
                 <td>
-                  <input className="input" type="text"></input>
+                  <input
+                    className="input"
+                    type="text"
+                    onChange={(e) => setId(e.target.value)}
+                  ></input>
                 </td>
                 <td rowSpan={2}>
-                  <button type="button" className="modal-login-btn">
+                  <button
+                    type="button"
+                    className="modal-login-btn"
+                    onClick={login}
+                  >
                     로그인
                   </button>
                 </td>
@@ -33,7 +61,11 @@ function Modal({ onClose }) {
                   <span className="span">비밀번호</span>
                 </td>
                 <td>
-                  <input className="input" type="password"></input>
+                  <input
+                    className="input"
+                    type="password"
+                    onChange={(e) => setPw(e.target.value)}
+                  ></input>
                 </td>
               </tr>
             </tbody>

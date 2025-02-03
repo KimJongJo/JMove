@@ -1,6 +1,7 @@
 package com.example.JMove.Controller;
 
 import com.example.JMove.DAO.User;
+import com.example.JMove.DTO.LoginRequest;
 import com.example.JMove.DTO.updatePwRequest;
 import com.example.JMove.Repository.UserRepository;
 import com.example.JMove.Service.UserService;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -87,6 +89,20 @@ public class UserController {
                         updateSuccess ? "비밀번호 변경 성공" : "비밀번호 변경 실패"
                 )
         );
+
+    }
+
+    // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request){
+        
+        String token = userService.login(request);
+
+        if(token == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("fail login");
+        }
+
+        return ResponseEntity.ok().body(Map.of("token", token));
 
     }
 

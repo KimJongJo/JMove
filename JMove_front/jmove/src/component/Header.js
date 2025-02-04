@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../component/AuthContext";
 import Modal from "./Modal";
-import React, { useState, useEffect } from "react";
 import "../css/Header.css";
 
 function Header() {
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const [searchMovieName, setSearchMovieName] = useState("");
   const [isModalOpen, setModalOpen] = useState(false); // 모달 열기/닫기 상태
 
@@ -15,6 +17,21 @@ function Header() {
   // 모달 닫기
   const modalClose = () => {
     setModalOpen(false);
+  };
+
+  // 로그아웃 버튼
+  const handleLogout = async () => {
+    try {
+      await fetch("http://localhost:8080/users/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      alert("로그아웃 되었습니다.");
+      setIsLoggedIn(false); // 로그아웃 후 상태 변경
+    } catch (error) {
+      console.error("로그아웃 실패", error);
+    }
   };
 
   return (
@@ -46,9 +63,18 @@ function Header() {
           </button>
         </Link>
 
-        <button onClick={modalOpen} type="button" className="login-btn">
-          로그인
-        </button>
+        {isLoggedIn ? (
+          <div className="logout-div">
+            <button onClick={handleLogout} type="button" className="logout-btn">
+              로그아웃
+            </button>
+            <button className="myPage-btn">마이페이지</button>
+          </div>
+        ) : (
+          <button onClick={modalOpen} type="button" className="login-btn">
+            로그인
+          </button>
+        )}
         {isModalOpen && <Modal onClose={modalClose} />}
       </div>
     </div>

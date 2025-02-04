@@ -1,19 +1,18 @@
 package com.example.JMove.Controller;
 
-import com.example.JMove.DAO.User;
 import com.example.JMove.DTO.LoginRequest;
 import com.example.JMove.DTO.updatePwRequest;
-import com.example.JMove.Repository.UserRepository;
 import com.example.JMove.Service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -93,16 +92,45 @@ public class UserController {
     }
 
     // 로그인
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request){
-        
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletResponse response){
+
+        System.out.println(request);
+
         String token = userService.login(request);
 
         if(token == null){
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("fail login");
         }
 
-        return ResponseEntity.ok().body(Map.of("token", token));
+
+
+        Cookie cookie = new Cookie("accessToken", token);
+        cookie.setHttpOnly(true); // 자바스크립트에서 접근 불가
+        cookie.setSecure(true); // HTTPS에서만 전송 -> 배포시 필요
+        cookie.setPath("/"); // 모든 경로에서 쿠키 사용가능
+        cookie.setMaxAge(3600); // 1시간동안 유지
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok("로그인 성공");
+
+    }
+
+    // 로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity<?> logOut(HttpServletRequest request, HttpServletResponse response){
+
+        // jwt 토큰을 담고 있는 쿠키 삭제
+        Cookie cookie = new Cookie("accessToken", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true); // HTTPS 환경에서만
+        cookie.setPath("/"); // 모든 경로에서 쿠키 삭제
+        cookie.setMaxAge(0); // 쿠키 만료
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok("로그아웃 성공");
 
     }
 

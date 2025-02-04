@@ -90,11 +90,24 @@ td {
   color: white;
 }
 
+.menu {
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+.menu:hover {
+  color: #0055ff;
+  transition-duration: 0.3s;
+}
+
 .login {
   height: 40px;
   width: 220px;
   border: none;
   border-radius: 10px;
+  cursor: pointer;
+}
+
+.login:hover {
 }
 
 .kakao {

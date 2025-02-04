@@ -35,6 +35,52 @@
   cursor: pointer;
 }
 
+.logout-btn {
+  border: none;
+  background-color: #664dd6;
+  color: white;
+  border-radius: 5px;
+  transition-duration: 0.3s;
+  margin-right: 15px;
+  margin-left: 15px;
+  height: 35px;
+  width: 60px;
+  font-size: 15px;
+  padding: 0;
+}
+
+.logout-btn:hover {
+  height: 35px;
+  width: 60px;
+  border: 2px solid #664dd6;
+  background-color: transparent;
+  color: #664dd6;
+  cursor: pointer;
+}
+
+.logout-div {
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: cetner;
+}
+
+.myPage-btn {
+  border: none;
+  border-radius: 5px;
+  margin-right: 35px;
+  font-size: 15px;
+  background-color: #664dd6;
+  color: white;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+.myPage-btn:hover {
+  transition-duration: 0.3s;
+  background-color: #4700a5;
+}
+
 /* 검색 박스 스타일 */
 .search-box {
   height: 25px;

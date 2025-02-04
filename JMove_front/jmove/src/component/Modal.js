@@ -1,25 +1,36 @@
 import "../css/Modal.css";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
+import { AuthContext } from "../component/AuthContext";
 
 function Modal({ onClose }) {
+  const { setIsLoggedIn } = useContext(AuthContext);
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const login = () => {
+  const login = async () => {
     if (id === "" || pw === "") {
       alert("아이디와 비밀번호를 입력해주세요");
       return;
     }
-    axios
-      .post("http://localhost:8080/users/login", {
-        id: id,
-        pw: pw,
-      })
-      .then((response) => {
-        console.log(response);
-      });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/users/login",
+        { id: id, pw: pw },
+        { withCredentials: true } // ✅ 쿠키 포함 (JWT 토큰을 저장하기 위해 필요)
+      );
+
+      alert("로그인 되었습니다.");
+      // console.log(response);
+
+      setIsLoggedIn(true); // ✅ 로그인 상태 업데이트
+      onClose(); // 모달 닫기
+    } catch (error) {
+      alert("아이디와 비밀번호가 틀렸습니다.");
+      console.error("로그인 실패:", error);
+    }
   };
 
   return (
@@ -72,15 +83,15 @@ function Modal({ onClose }) {
           </table>
           <div>
             <Link to="/find-id" onClick={onClose}>
-              <span className="span">아이디찾기</span>
+              <span className="span menu">아이디찾기</span>
             </Link>
             <span className="span"> / </span>
             <Link to="/find-pw" onClick={onClose}>
-              <span className="span">비밀번호찾기</span>
+              <span className="span menu">비밀번호찾기</span>
             </Link>
             <span className="span"> / </span>
             <Link to="/signup" onClick={onClose}>
-              <span className="span">회원가입</span>
+              <span className="span menu">회원가입</span>
             </Link>
           </div>
           <button className="login kakao">카카오 계정으로 로그인</button>

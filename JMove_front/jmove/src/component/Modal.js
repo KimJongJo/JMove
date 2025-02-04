@@ -33,6 +33,17 @@ function Modal({ onClose }) {
     }
   };
 
+  // 로그인 api
+  const loginAPI = (code) => {
+    // code 1 => kakao, 2 => naver, 3 => google
+
+    const apiURL = "http://localhost:8080/login?code=" + code;
+
+    axios.post(apiURL).then((response) => {
+      console.log(response);
+    });
+  };
+
   return (
     <div className="back">
       <div className="modal">
@@ -94,9 +105,27 @@ function Modal({ onClose }) {
               <span className="span menu">회원가입</span>
             </Link>
           </div>
-          <button className="login kakao">카카오 계정으로 로그인</button>
-          <button className="login naver">네이버 아이디로 로그인</button>
-          <button className="login google">구글 계정으로 로그인</button>
+          <button
+            className="login kakao"
+            type="button"
+            onClick={() => loginAPI(1)}
+          >
+            카카오 계정으로 로그인
+          </button>
+          <button
+            className="login naver"
+            type="button"
+            onClick={() => loginAPI(2)}
+          >
+            네이버 아이디로 로그인
+          </button>
+          <button
+            className="login google"
+            type="button"
+            onClick={() => loginAPI(3)}
+          >
+            구글 계정으로 로그인
+          </button>
         </div>
       </div>
     </div>

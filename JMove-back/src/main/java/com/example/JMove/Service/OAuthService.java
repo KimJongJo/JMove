@@ -60,18 +60,14 @@ public class OAuthService {
     }
 
     // 액세스 토큰으로 사용자 정보 가져오기
-    public Map<String, Object> getUserInfo(String accessToken, String provider){
-
-        Map<String, Object> userInfo = null;
+    public String getUserInfo(String accessToken, String provider){
 
         switch(provider){
-            case "kakao" : userInfo = getKakaoInfo(accessToken); break;
-            case "naver" : userInfo = getNaverInfo(accessToken); break;
-            case "google" : userInfo = getGoogleInfo(accessToken); break;
+            case "kakao" : return getKakaoInfo(accessToken);
+            case "naver" : return getNaverInfo(accessToken);
+            case "google" : return getGoogleInfo(accessToken);
             default : return null;
         }
-
-        return userInfo;
 
 
     }
@@ -140,8 +136,8 @@ public class OAuthService {
         }
     }
 
-    // 카카오 유저 정보
-    public Map<String, Object> getKakaoInfo(String accessToken){
+    // 카카오 유저 ID
+    public String getKakaoInfo(String accessToken){
 
         try{
             HttpRequest request = HttpRequest.newBuilder()
@@ -154,7 +150,8 @@ public class OAuthService {
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(response.body(), Map.class);
+            Map<String, Object> responseMap = objectMapper.readValue(response.body(), Map.class);
+            return "kakao" + responseMap.get("id");
 
         }catch(Exception e){
             e.printStackTrace();
@@ -164,7 +161,7 @@ public class OAuthService {
     }
 
     // 네이버 유저 정보
-    public Map<String, Object> getNaverInfo(String accessToken){
+    public String getNaverInfo(String accessToken){
 
         try{
             HttpRequest request = HttpRequest.newBuilder()
@@ -174,7 +171,9 @@ public class OAuthService {
                     .build();HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(response.body(), Map.class);
+            Map<String, Object> responseMap = objectMapper.readValue(response.body(), Map.class);
+            Map<String, Object> dataMap = (Map<String, Object>) responseMap.get("response");
+            return "naver" + dataMap.get("id");
 
         }catch(Exception e){
             e.printStackTrace();
@@ -184,7 +183,7 @@ public class OAuthService {
     }
 
     // 구글 유저 정보
-    public Map<String, Object> getGoogleInfo(String accessToken){
+    public String getGoogleInfo(String accessToken){
 
         try{
             HttpRequest request = HttpRequest.newBuilder()
@@ -196,7 +195,8 @@ public class OAuthService {
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(response.body(), Map.class);
+            Map<String, Object> responseMap = objectMapper.readValue(response.body(), Map.class);
+            return "google" + responseMap.get("sub");
 
         }catch(Exception e){
             e.printStackTrace();

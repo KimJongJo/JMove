@@ -1,10 +1,12 @@
 import "../css/Modal.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../component/AuthContext";
 
 function Modal({ onClose }) {
+  const navigate = useNavigate();
+
   const { setIsLoggedIn } = useContext(AuthContext);
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -34,15 +36,19 @@ function Modal({ onClose }) {
   };
 
   // 로그인 api
+
   const loginAPI = async (code) => {
     // code 1 => kakao, 2 => naver, 3 => google
     try {
       const apiURL = "http://localhost:8080/login?code=" + code;
 
+      // 서버에서 로그인 처리
       const response = await axios.post(apiURL);
+
       window.location.href = response.data.redirectUrl;
     } catch (error) {
       console.error("로그인 요청 실패", error);
+      alert("로그인에 실패했습니다.");
     }
   };
 

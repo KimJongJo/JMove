@@ -32,4 +32,15 @@ public class SignupService {
 
         return true;
     }
+
+    @Transactional
+    public boolean signup(String userId){
+        User user = User.builder()
+                .id(userId)
+                .build();
+
+        userRepository.save(user);
+
+        return true;
+    }
 }

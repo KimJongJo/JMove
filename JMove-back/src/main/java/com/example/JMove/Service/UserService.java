@@ -69,7 +69,7 @@ public class UserService {
 
     }
 
-    // 로그인
+    // 일반 로그인
     public String login(LoginRequest request){
 
         String id = request.getId();
@@ -92,8 +92,19 @@ public class UserService {
                 return null;
             }
         }
+    }
 
+    public String loginAPI(String userId) {
+        // 1. 입력한 아이디가 db에 있는지 확인
+        Optional<User> user = userRepository.findById(userId);
 
+        // 2. 없다면 false 리턴, 있으면 암호화된 비밀번호와 입력한 비밀번호가 같은지 확인
+        if (user.isEmpty()){
+            return null;
+        }else{
+            String token = tokenProvider.generateToken(user.get(), Duration.ofHours(1));
 
+            return token;
+        }
     }
 }

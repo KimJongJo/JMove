@@ -34,14 +34,16 @@ function Modal({ onClose }) {
   };
 
   // 로그인 api
-  const loginAPI = (code) => {
+  const loginAPI = async (code) => {
     // code 1 => kakao, 2 => naver, 3 => google
+    try {
+      const apiURL = "http://localhost:8080/login?code=" + code;
 
-    const apiURL = "http://localhost:8080/login?code=" + code;
-
-    axios.post(apiURL).then((response) => {
-      console.log(response);
-    });
+      const response = await axios.post(apiURL);
+      window.location.href = response.data.redirectUrl;
+    } catch (error) {
+      console.error("로그인 요청 실패", error);
+    }
   };
 
   return (

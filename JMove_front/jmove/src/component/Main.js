@@ -18,6 +18,7 @@ function Main() {
   // 모달 열기
   const modalOpen = () => {
     setModalOpen(true);
+    console.log("ddd");
   };
 
   // 모달 닫기

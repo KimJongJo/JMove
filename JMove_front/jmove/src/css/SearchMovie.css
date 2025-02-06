@@ -1,0 +1,16 @@
+.no-result-span-div {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.no-result-span {
+  font-size: 40px;
+}
+
+.fa-magnifying-glass {
+  font-size: 100px;
+  margin-bottom: 30px;
+}

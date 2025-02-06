@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "./Header";
+import "../css/SearchMovie.css";
 
 function SearchMovie() {
   const location = useLocation();
@@ -46,7 +47,10 @@ function SearchMovie() {
         </span>
         <div>
           {searchMovieList.length === 0 ? (
-            <div>검색 결과가 없습니다.</div>
+            <div className="no-result-span-div">
+              <i className="fa-solid fa-magnifying-glass"></i>
+              <span className="no-result-span">검색 결과가 없습니다.</span>
+            </div>
           ) : (
             <div className="now-movieList">
               {searchMovieList.map((movie, index) => (

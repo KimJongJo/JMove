@@ -1,7 +1,12 @@
 package com.example.JMove.Controller;
 
+import com.example.JMove.Config.jwt.TokenProvider;
+import com.example.JMove.DAO.Favorite;
+import com.example.JMove.DAO.Movie;
 import com.example.JMove.DTO.LoginRequest;
 import com.example.JMove.DTO.updatePwRequest;
+import com.example.JMove.Service.FavoriteService;
+import com.example.JMove.Service.MovieService;
 import com.example.JMove.Service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +35,10 @@ public class UserController {
     }
 
     private final UserService userService;
+    private final FavoriteService favoriteService;
+    private final MovieService movieService;
+    private final TokenProvider tokenProvider;
+
 
     @GetMapping("/check-id")
     public ResponseEntity<Response> checkId(@RequestParam("id") String id){
@@ -133,6 +144,55 @@ public class UserController {
         return ResponseEntity.ok("로그아웃 성공");
 
     }
+
+    @GetMapping("/mypage")
+    public ResponseEntity<List<Movie>> mypage( HttpServletRequest request){
+
+        String token = extractTokenFromCookies(request);
+
+        // 유저 id 가져오기
+        String userId = tokenProvider.getUserId(token);
+
+        //
+        List<Favorite> favoriteList = favoriteService.findByUserId(userId);
+        List<Long> movieIds = favoriteList.stream()
+                .map(Favorite::getMovieId)
+                .collect(Collectors.toList());
+
+        List<Movie> movies = movieService.findByIdIn(movieIds);
+
+        return ResponseEntity.ok(movies);
+
+    }
+
+    // jwt 토큰 꺼내기
+    private String extractTokenFromCookies(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("accessToken".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+
+    // 마이페이지 영화 삭제
+    @PostMapping("/movies")
+    public ResponseEntity<?> removeMovie(@RequestBody Map<String, Object> movie, HttpServletRequest request){
+
+        String token = extractTokenFromCookies(request);
+        String userId = tokenProvider.getUserId(token);
+
+        Map<String, Object> detailMovie = (Map<String, Object>) movie.get("movie");
+        favoriteService.deleteMovie(detailMovie, userId);
+
+        
+        return ResponseEntity.ok("삭제 완료");
+    }
+
 
 
 }

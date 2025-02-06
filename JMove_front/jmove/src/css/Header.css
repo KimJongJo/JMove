@@ -73,6 +73,7 @@
   background-color: #664dd6;
   color: white;
   transition-duration: 0.3s;
+  height: 35px;
   cursor: pointer;
 }
 

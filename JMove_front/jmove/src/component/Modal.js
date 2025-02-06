@@ -1,12 +1,10 @@
 import "../css/Modal.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../component/AuthContext";
 
 function Modal({ onClose }) {
-  const navigate = useNavigate();
-
   const { setIsLoggedIn } = useContext(AuthContext);
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");

@@ -1,23 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../component/AuthContext";
 import Modal from "./Modal";
 import "../css/Header.css";
 
-function Header() {
+function Header({ isModalOpen, modalOpen, modalClose }) {
+  const navigate = useNavigate();
+
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const [searchMovieName, setSearchMovieName] = useState("");
-  const [isModalOpen, setModalOpen] = useState(false); // 모달 열기/닫기 상태
+  // const [isModalOpen, setModalOpen] = useState(false); // 모달 열기/닫기 상태
 
-  // 모달 열기
-  const modalOpen = () => {
-    setModalOpen(true);
-  };
+  // // 모달 열기
+  // const modalOpen = () => {
+  //   setModalOpen(true);
+  // };
 
-  // 모달 닫기
-  const modalClose = () => {
-    setModalOpen(false);
-  };
+  // // 모달 닫기
+  // const modalClose = () => {
+  //   setModalOpen(false);
+  // };
 
   // 로그아웃 버튼
   const handleLogout = async () => {
@@ -29,6 +31,7 @@ function Header() {
 
       alert("로그아웃 되었습니다.");
       setIsLoggedIn(false); // 로그아웃 후 상태 변경
+      navigate("/");
     } catch (error) {
       console.error("로그아웃 실패", error);
     }
@@ -68,14 +71,18 @@ function Header() {
             <button onClick={handleLogout} type="button" className="logout-btn">
               로그아웃
             </button>
-            <button className="myPage-btn">마이페이지</button>
+            <Link to="/mypage">
+              <button className="myPage-btn">마이페이지</button>
+            </Link>
           </div>
         ) : (
           <button onClick={modalOpen} type="button" className="login-btn">
             로그인
           </button>
         )}
-        {isModalOpen && <Modal onClose={modalClose} />}
+        {isModalOpen && (
+          <Modal onClose={modalClose} isModalOpen={isModalOpen} />
+        )}
       </div>
     </div>
   );

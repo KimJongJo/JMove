@@ -6,6 +6,7 @@ import FindId from "./component/FindId";
 import FindPw from "./component/FindPw";
 import Signup from "./component/Signup";
 import SearchMovie from "./component/SearchMovie";
+import Mypage from "./component/Mypage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/find-pw" element={<FindPw />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/search" element={<SearchMovie />} />
+            <Route path="/mypage" element={<Mypage />} />
           </Routes>
         </div>
       </Router>

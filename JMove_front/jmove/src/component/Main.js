@@ -1,16 +1,29 @@
 import "../css/Main.css";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Header from "./Header";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../component/AuthContext";
 
 function Main() {
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const [poster, setPoster] = useState([]); // 포스터 목록
   const [movies, setMovie] = useState([]); // 영화 목록
   const [currentIndex, setCurrentIndex] = useState(0); // 현재 슬라이드 인덱스
 
   const [clickMovie, setClickMovie] = useState(); // 선택한 영화
   const [page, setPage] = useState(1); // 현재 페이지
+
+  const [isModalOpen, setModalOpen] = useState(false); // 모달 열기/닫기 상태
+  // 모달 열기
+  const modalOpen = () => {
+    setModalOpen(true);
+  };
+
+  // 모달 닫기
+  const modalClose = () => {
+    setModalOpen(false);
+  };
 
   // 포스터 데이터 가져오기, 현재 상영중인 영화 데이터 가져오기
   useEffect(() => {
@@ -27,6 +40,8 @@ function Main() {
 
     axios.get("http://localhost:8080/movies?page=0").then((response) => {
       setMovie(response.data.results);
+
+      console.log(response);
     });
   }, []);
 
@@ -52,10 +67,37 @@ function Main() {
     setClickMovie(movie);
   };
 
+  // 영화를 저장하기
+  const saveMovie = () => {
+    if (isLoggedIn) {
+      axios
+        .post(
+          "http://localhost:8080/movies",
+          { movie: clickMovie },
+          { withCredentials: true }
+        ) // 빈 객체를 두 번째 인자로 넣고, withCredentials는 세 번째 인자에
+        .then((response) => {
+          console.log(response);
+          alert("마이페이지에 저장되었습니다.");
+          setClickMovie(null);
+        })
+        .catch((error) => {
+          console.error("저장 실패:", error);
+        });
+    } else {
+      alert("로그인 후 이용해주세요");
+      setModalOpen(true);
+    }
+  };
+
   return (
     <div className="Main">
       <div className="header-bar">
-        <Header />
+        <Header
+          isModalOpen={isModalOpen}
+          modalOpen={modalOpen}
+          modalClose={modalClose}
+        />
       </div>
 
       <div className="main-poster">
@@ -222,7 +264,11 @@ function Main() {
                 <div className="movie-info-span-line-div">
                   <span className="movie-info-span-line">{`${clickMovie.overview}`}</span>
                 </div>
-                <button className="movie-save-btn" type="button">
+                <button
+                  className="movie-save-btn"
+                  type="button"
+                  onClick={saveMovie}
+                >
                   저장하기
                 </button>
               </div>

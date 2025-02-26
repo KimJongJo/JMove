@@ -1,4 +1,6 @@
 # JMove
+
+<a href="https://developer.themoviedb.org/docs/getting-started" target="_blank">TMDB 사이트</a>
 ```
 TMDB api를 이용한 영화 추천 사이트 입니다.
 독학으로 공부한 React와 JPA를 활용하는것에 중점적으로 프론트엔드와 백엔드를 분리해서 개발했습니다.

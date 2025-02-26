@@ -1,13 +1,11 @@
 package com.example.JMove.Service;
 
 import com.example.JMove.Config.jwt.TokenProvider;
-import com.example.JMove.Controller.UserController;
 import com.example.JMove.DAO.User;
 import com.example.JMove.DTO.LoginRequest;
 import com.example.JMove.DTO.updatePwRequest;
 import com.example.JMove.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -106,5 +104,9 @@ public class UserService {
 
             return token;
         }
+    }
+
+    public Optional<User> findById(String userId) {
+        return userRepository.findById(userId);
     }
 }

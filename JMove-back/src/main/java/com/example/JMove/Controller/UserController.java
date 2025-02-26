@@ -3,8 +3,8 @@ package com.example.JMove.Controller;
 import com.example.JMove.Config.jwt.TokenProvider;
 import com.example.JMove.DAO.Favorite;
 import com.example.JMove.DAO.Movie;
-import com.example.JMove.DTO.LoginRequest;
-import com.example.JMove.DTO.updatePwRequest;
+import com.example.JMove.DAO.User;
+import com.example.JMove.DTO.*;
 import com.example.JMove.Service.FavoriteService;
 import com.example.JMove.Service.MovieService;
 import com.example.JMove.Service.UserService;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -146,24 +147,40 @@ public class UserController {
     }
 
     @GetMapping("/mypage")
-    public ResponseEntity<List<Movie>> mypage( HttpServletRequest request){
-
+    public ResponseEntity<UserDTO> mypage(HttpServletRequest request) {
         String token = extractTokenFromCookies(request);
-
-        // 유저 id 가져오기
         String userId = tokenProvider.getUserId(token);
 
-        //
-        List<Favorite> favoriteList = favoriteService.findByUserId(userId);
-        List<Long> movieIds = favoriteList.stream()
-                .map(Favorite::getMovieId)
-                .collect(Collectors.toList());
+        Optional<User> user = userService.findById(userId);
+        if (user.isPresent()) {
+            List<Favorite> favoriteList = favoriteService.findByUser(user.get());
 
-        List<Movie> movies = movieService.findByIdIn(movieIds);
+            // Favorite -> FavoriteDTO, Movie -> MovieDTO 변환
+            List<FavoriteDTO> favoriteDtos = favoriteList.stream()
+                    .map(fav -> new FavoriteDTO(
+                            fav.getFavoriteId(),
+                            new MovieDTO(
+                                    fav.getMovie().getMovieId(),  // 영화 ID
+                                    fav.getMovie().getTitle(),  // 영화 제목
+                                    fav.getMovie().getText(),  // 영화 설명
+                                    fav.getMovie().getPosterPath(),  // 포스터 경로
+                                    fav.getMovie().getBackPosterPath(),  // 백포스터 경로
+                                    fav.getMovie().getAverage(),  // 영화 평점
+                                    fav.getMovie().getCount()  // 리뷰 수
+                            ),
+                            fav.getAddedAt()  // 추가된 시간
+                    ))
+                    .collect(Collectors.toList());
 
-        return ResponseEntity.ok(movies);
+            UserDTO userDto = new UserDTO(userId, favoriteDtos);
 
+            return ResponseEntity.ok(userDto);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
+
+
 
     // jwt 토큰 꺼내기
     private String extractTokenFromCookies(HttpServletRequest request) {
@@ -185,6 +202,7 @@ public class UserController {
 
         String token = extractTokenFromCookies(request);
         String userId = tokenProvider.getUserId(token);
+
 
         Map<String, Object> detailMovie = (Map<String, Object>) movie.get("movie");
         favoriteService.deleteMovie(detailMovie, userId);

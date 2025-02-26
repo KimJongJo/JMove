@@ -3,8 +3,10 @@ package com.example.JMove.Service;
 import com.example.JMove.Config.jwt.TokenProvider;
 import com.example.JMove.DAO.Favorite;
 import com.example.JMove.DAO.Movie;
+import com.example.JMove.DAO.User;
 import com.example.JMove.Repository.FavoriteRepository;
 import com.example.JMove.Repository.MovieRepository;
+import com.example.JMove.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ public class MovieService {
     private final TokenProvider tokenProvider;
     private final MovieRepository movieRepository;
     private final FavoriteRepository favoriteRepository;
+    private final UserRepository userRepository;
 
 
     // 토큰 검증하기
@@ -70,15 +73,21 @@ public class MovieService {
     // 영화를 저장 => favorite
     public void addMovie(Long movieId, String userId){
 
+        Optional<User> user = userRepository.findById(userId);
+        Optional<Movie> movie = movieRepository.findById(movieId);
+
         // 이미 마이페이지에 저장되어 있으면 넘어감
-        boolean checkFavorite = favoriteRepository.existsByUserIdAndMovieId(userId, movieId);
+        boolean checkFavorite = favoriteRepository.existsByUserAndMovie(user.get(), movie.get());
 
         if(!checkFavorite){
             LocalDateTime date = LocalDateTime.now();
 
+
+
+
             Favorite favorite = Favorite.builder()
-                    .userId(userId)
-                    .movieId(movieId)
+                    .user(user.get())
+                    .movie(movie.get())
                     .addedAt(date)
                     .build();
 

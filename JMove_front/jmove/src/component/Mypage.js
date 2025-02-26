@@ -43,8 +43,8 @@ function Mypage() {
     axios
       .get("http://localhost:8080/users/mypage", { withCredentials: true })
       .then((response) => {
-        setMyMovie(response.data);
-        console.log(response.data);
+        setMyMovie(response.data.favorites);
+        console.log(response.data.favorites);
       });
   };
 
@@ -57,30 +57,30 @@ function Mypage() {
         <span className="mypage-span">마이페이지</span>
       </div>
       <div className="movieList">
-        {myMovie.map((movie, index) => (
+        {myMovie.map((favorites, index) => (
           <div className="movie-box" key={index}>
             <div
               onClick={() => {
-                movieInfo(movie);
-                setClickMovieId(movie.id);
+                movieInfo(favorites.movie);
+                setClickMovieId(favorites.movie.id);
               }}
               key={index}
               className="nowplay-movie-image"
               style={{
                 minWidth: "100%",
                 minHeight: "100%",
-                backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.posterPath})`,
+                backgroundImage: `url(https://image.tmdb.org/t/p/w500${favorites.movie.posterPath})`,
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
             >
               <div className="movie-overview">
-                <span className="movie-overview-span">{`${movie.text}`}</span>
+                <span className="movie-overview-span">{`${favorites.movie.text}`}</span>
               </div>
             </div>
             <div className="nowplay-movie-title-div">
-              <span className="nowplay-movie-title">{`${movie.title}`}</span>
+              <span className="nowplay-movie-title">{`${favorites.movie.title}`}</span>
             </div>
           </div>
         ))}

@@ -23,11 +23,19 @@ public class Favorite {
     @Column(name = "favorite_id")
     private Long favoriteId;
 
-    @Column(name = "user_id", nullable = false)
-    private String userId;
+//    @Column(name = "user_id", nullable = false)
+//    private String userId;
+//
+//    @Column(name = "movie_id", nullable = false)
+//    private Long movieId;
 
-    @Column(name = "movie_id", nullable = false)
-    private Long movieId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id", nullable = false)
+    private Movie movie;
 
     @CreationTimestamp  // 객체 생성 시 현재 시간 자동 삽입
     @Column(name = "added_at")

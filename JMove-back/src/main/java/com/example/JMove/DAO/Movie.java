@@ -1,10 +1,9 @@
 package com.example.JMove.DAO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -37,6 +36,9 @@ public class Movie {
 
     @Column(name = "count")
     private int count;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorite> favorites;
 
 
 }

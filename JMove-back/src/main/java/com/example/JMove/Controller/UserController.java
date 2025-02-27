@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -151,34 +152,32 @@ public class UserController {
         String token = extractTokenFromCookies(request);
         String userId = tokenProvider.getUserId(token);
 
-        Optional<User> user = userService.findById(userId);
-        if (user.isPresent()) {
-            List<Favorite> favoriteList = favoriteService.findByUser(user.get());
+        User user = userService.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-            // Favorite -> FavoriteDTO, Movie -> MovieDTO 변환
-            List<FavoriteDTO> favoriteDtos = favoriteList.stream()
-                    .map(fav -> new FavoriteDTO(
-                            fav.getFavoriteId(),
-                            new MovieDTO(
-                                    fav.getMovie().getMovieId(),  // 영화 ID
-                                    fav.getMovie().getTitle(),  // 영화 제목
-                                    fav.getMovie().getText(),  // 영화 설명
-                                    fav.getMovie().getPosterPath(),  // 포스터 경로
-                                    fav.getMovie().getBackPosterPath(),  // 백포스터 경로
-                                    fav.getMovie().getAverage(),  // 영화 평점
-                                    fav.getMovie().getCount()  // 리뷰 수
-                            ),
-                            fav.getAddedAt()  // 추가된 시간
-                    ))
-                    .collect(Collectors.toList());
+        List<Favorite> favoriteList = favoriteService.findByUser(user);
 
-            UserDTO userDto = new UserDTO(userId, favoriteDtos);
+        // Favorite -> FavoriteDTO, Movie -> MovieDTO 변환
+        List<FavoriteDTO> favoriteDtos = favoriteList.stream()
+                .map(fav -> new FavoriteDTO(
+                        fav.getFavoriteId(),
+                        new MovieDTO(
+                                fav.getMovie().getMovieId(),  // 영화 ID
+                                fav.getMovie().getTitle(),  // 영화 제목
+                                fav.getMovie().getText(),  // 영화 설명
+                                fav.getMovie().getPosterPath(),  // 포스터 경로
+                                fav.getMovie().getBackPosterPath(),  // 백포스터 경로
+                                fav.getMovie().getAverage(),  // 영화 평점
+                                fav.getMovie().getCount()  // 리뷰 수
+                        ),
+                        fav.getAddedAt()  // 추가된 시간
+                ))
+                .collect(Collectors.toList());
 
-            return ResponseEntity.ok(userDto);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        UserDTO userDto = new UserDTO(userId, favoriteDtos);
+        return ResponseEntity.ok(userDto);
     }
+
 
 
 

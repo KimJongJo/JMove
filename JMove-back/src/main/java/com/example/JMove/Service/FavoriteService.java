@@ -23,7 +23,7 @@ public class FavoriteService {
     private final MovieRepository movieRepository;
 
     public List<Favorite> findByUserId(User user){
-        return favoriteRepository.findByUser(Optional.ofNullable(user));
+        return favoriteRepository.findByUser(user);
     }
 
     @Transactional
@@ -42,6 +42,6 @@ public class FavoriteService {
     }
 
     public List<Favorite> findByUser(User user) {
-        return favoriteRepository.findByUser(Optional.ofNullable(user));
+        return favoriteRepository.findByUser(user);
     }
 }

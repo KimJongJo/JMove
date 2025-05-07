@@ -33,6 +33,12 @@ React Router를 활용하여 Single Page Application에서 동적인 페이지 �
   
 </details>
 
+### 목업
+![image](https://github.com/user-attachments/assets/4bb680b5-1f88-46f9-a87d-a7698cb94907)
+
+<hr>
+
+## 개발
 
 ### 메인 화면
 ![image](https://github.com/user-attachments/assets/5e5867d6-bc8b-4926-90f9-577994916e97)

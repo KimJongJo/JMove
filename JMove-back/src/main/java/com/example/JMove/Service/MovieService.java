@@ -73,6 +73,8 @@ public class MovieService {
     // 영화를 저장 => favorite
     public void addMovie(Long movieId, String userId){
 
+        System.out.println("요청한 사용자 ID : " + userId);
+
         Optional<User> user = userRepository.findById(userId);
         Optional<Movie> movie = movieRepository.findById(movieId);
 

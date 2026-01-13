@@ -8,18 +8,17 @@ React Router를 활용하여 Single Page Application에서 동적인 페이지 �
 
 인원 : 1명
 프로젝트 기간 : 2025/01/14 ~ 2025/02/06
-구현 내용 : 소셜로그인 API (카카오, 네이버, 구글), 아이디 / 비밀번호 찾기, 회원가입, 영화 검색, 마이페이지(저장, 삭제)
+구현 내용 : 소셜로그인 API (카카오, 네이버, 구글),
+            아이디 / 비밀번호 찾기, 회원가입, 영화 검색, 마이페이지(저장, 삭제)
 ```
 ---
 
 
-<details>
-<summary>
-개발 환경
-</summary>
 
   
-| Environment | Detail |
+## 🛠 개발 환경 (Environment)
+
+| 구분 | 상세 내용 (Detail) |
 | --- | --- |
 | 환경 | Windows |
 | 언어 | Java, Javascript, Oracle SQL |
@@ -30,8 +29,7 @@ React Router를 활용하여 Single Page Application에서 동적인 페이지 �
 | API | TMDB api, Login(Kakao, Google, Naver) |
 | 사용| Github, ERD Cloud, Draw.io, Figma |
 
-  
-</details>
+
 
 ### 목업
 ![image](https://github.com/user-attachments/assets/4bb680b5-1f88-46f9-a87d-a7698cb94907)
